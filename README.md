@@ -2,7 +2,8 @@
 
 Welcome to Tic-Tac-Toe with AI! This simple yet engaging game allows you to play Tic-Tac-Toe against an intelligent AI opponent. The AI uses the minimax algorithm to make strategic moves, providing a challenging experience for players of all skill levels.
 
-![Tic-Tac-Toe with AI](https://github.com/Baniya-sen/AI-Tic-Tac-Toe/assets/144620117/d90ae509-1794-4039-8231-ab9b261d10c2)
+![Tic-Tac-Toe with AI](https://github.com/Baniya-sen/AI-Tic-Tac-Toe/assets/144620117/a72e3306-0fe6-4c1e-81f2-ad43e185f4b2)
+
 
 ## Installation
 
