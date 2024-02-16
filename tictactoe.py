@@ -33,6 +33,12 @@ def player(board):
         return O
 
 
+def valid_move(board, position):
+    i, j = position
+    return board[i][j] is None
+
+
+
 def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
@@ -59,8 +65,6 @@ def result(board, action):
     board_state = copy.deepcopy(board)
     if board_state[action[0]][action[1]] is None:
         board_state[action[0]][action[1]] = player(board_state)
-    else:
-        raise Exception("Wrong move! Spot occupied.")
     return board_state
 
 
@@ -121,6 +125,34 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
+    def min_value(state, alpha, beta):
+        """Finds the minimum value from the maximizing-player-state using pruning"""
+        if terminal(state):
+            return utility(state)
+
+        v = float('inf')
+        for a in actions(state):
+            evaluate = max_value(result(state, a), alpha, beta)
+            v = min(v, evaluate)
+            beta = min(beta, evaluate)
+            if beta <= alpha:
+                break
+        return v
+
+    def max_value(state, alpha, beta):
+        """Finds the maximum value from the minimizing-player-state using pruning"""
+        if terminal(state):
+            return utility(state)
+
+        v = float('-inf')
+        for a in actions(state):
+            evaluate = min_value(result(state, a), alpha, beta)
+            v = max(v, evaluate)
+            alpha = max(alpha, evaluate)
+            if beta <= alpha:
+                break
+        return v
+
     if terminal(board):
         return None
 
@@ -128,42 +160,24 @@ def minimax(board):
     if all(cell is None for row in board for cell in row):
         return random.choice(list(actions(board)))
 
-    def min_value(state):
-        """Finds the minimum value from the maximizing player states"""
-        if terminal(state):
-            return utility(state)
-        else:
-            v = float('inf')
-            for a in actions(state):
-                v = min(v, max_value(result(state, a)))
-            return v
-
-    def max_value(state):
-        """Finds the minimum value from the minimizing player states"""
-        if terminal(state):
-            return utility(state)
-        else:
-            v = float('-inf')
-            for a in actions(state):
-                v = max(v, min_value(result(state, a)))
-            return v
-
     # If its is O turn, AI will play as O, else as X
     # For every action from Action(s), check possible utility of action
+    # Using alpha-beta pruning, cutting non-necessary nodes
+    best_min = float('-inf')
+    best_max = float('inf')
     optimal_action = None
+
     if player(board) == O:
-        best = float('inf')
         for action in actions(board):
-            value = max_value(result(board, action))
-            if value < best:
-                best = value
+            value = max_value(result(board, action), best_min, best_max)
+            if value < best_max:
+                best_max = value
                 optimal_action = action
     elif player(board) == X:
-        best = float('-inf')
         for action in actions(board):
-            value = min_value(result(board, action))
-            if value > best:
-                best = value
+            value = min_value(result(board, action), best_min, best_max)
+            if value > best_min:
+                best_min = value
                 optimal_action = action
 
     return optimal_action
