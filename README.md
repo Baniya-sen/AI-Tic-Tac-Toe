@@ -25,7 +25,7 @@ To start the game, simply run `runner.py`. You will be prompted to choose whethe
 
 And, since Tic-Tac-Toe is a tie given optimal play by both sides, you should never be able to beat the AI (though if you don’t play optimally as well, it may beat you!)
 
-Access the web version here [TicTacToeWithAI]([URL](https://tictactoewithai.pythonanywhere.com/))
+Access the web version here [TicTacToeWithAI](https://tictactoewithai.pythonanywhere.com/)
 
 
 ## Contributing
